@@ -1,0 +1,24 @@
+<%@page import ="Project.ConnectionProvider"%>
+<%@page import ="java.sql.*"%>
+<%
+String username=request.getParameter("username");
+String email=request.getParameter("email");
+String password=request.getParameter("password");
+String phonenumber=request.getParameter("phonenumber");
+if(username.isEmpty() || email.isEmpty() || password.isEmpty() || phonenumber.isEmpty())
+{
+	response.sendRedirect("index.jsp?msg=invalid");
+}
+else
+{
+	Connection con = ConnectionProvider.getCon();
+	PreparedStatement ps = con.prepareStatement("insert into registerdata values(?,?,?,?)");
+	ps.setString(1,username);
+	ps.setString(2,email);
+	ps.setString(3,password);
+	ps.setString(4,phonenumber);
+	ps.executeUpdate();
+	response.sendRedirect("index.jsp?msg=valid");
+			
+}
+%>
